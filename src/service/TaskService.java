@@ -8,13 +8,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class TaskService {
-    private static final ArrayList<Task> tasks = new ArrayList<>();
+    ArrayList<Task> tasks = new ArrayList<>();
 
-    public void add(String description){
-        tasks.stream()
-                .max(Comparator.comparingInt(Task::getId))
-                .ifPresentOrElse(lastTask -> tasks.add(new Task(lastTask.getId() + 1, description, Status.TODO, Instant.now(), Instant.now())),
-                        () -> tasks.add(new Task(1, description, Status.TODO, Instant.now(), Instant.now())));
+    public String add(String description){
+        int newId = tasks.stream()
+                .max(Comparator.comparing(Task::getId))
+                .map(task -> task.getId() + 1)
+                .orElse(1);
+
+        tasks.addLast(new Task(newId, description, Status.TODO, Instant.now(), Instant.now()));
+        return "Task added successfully (ID: " + newId + " )";
     }
 
     public void update(int targetId, String newDescription){
