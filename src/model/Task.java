@@ -49,6 +49,14 @@ public class Task {
     public Instant getUpdatedAt() {
         return updatedAt;
     }
+
+    @Override
+    public String toString(){
+        return "ID: " + id
+                + " | " + description
+                + " | " + status
+                + " | " + createdAt;
+    }
 }
 
 
