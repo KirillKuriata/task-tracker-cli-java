@@ -2,6 +2,8 @@ package service;
 
 import model.Status;
 import model.Task;
+import repository.JsonTaskRepository;
+import repository.TaskRepository;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.Comparator;
 public class TaskService {
     ArrayList<Task> tasks = new ArrayList<>();
 
+    TaskRepository tr = new JsonTaskRepository();
+
     public String add(String description){
         int newId = tasks.stream()
                 .max(Comparator.comparing(Task::getId))
@@ -17,6 +21,7 @@ public class TaskService {
                 .orElse(1);
 
         tasks.addLast(new Task(newId, description, Status.TODO, Instant.now(), Instant.now()));
+        tr.save(tasks);
         return "Task added successfully (ID: " + newId + " )";
     }
 
@@ -28,12 +33,14 @@ public class TaskService {
                     task.setDescription(newDescription);
                     task.setUpdatedAt(Instant.now());
                 });
+        tr.save(tasks);
     }
     public void delete(int targetId){
         tasks.stream()
                 .filter(findTask -> findTask.getId() == targetId)
                 .findAny()
                 .ifPresent(tasks::remove);
+        tr.save(tasks);
     }
     public void markInProgress(int targetId){
         tasks.stream()
@@ -43,6 +50,7 @@ public class TaskService {
                     task.setStatus(Status.IN_PROGRESS);
                     task.setUpdatedAt(Instant.now());
                 });
+        tr.save(tasks);
     }
     public void markDone(int targetId){
         tasks.stream()
@@ -52,6 +60,7 @@ public class TaskService {
                     task.setStatus(Status.DONE);
                     task.setUpdatedAt(Instant.now());
                 });
+        tr.save(tasks);
     }
     public ArrayList<Task> list(){
         return tasks;
