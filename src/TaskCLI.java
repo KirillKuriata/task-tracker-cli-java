@@ -3,6 +3,7 @@ import model.Task;
 import service.TaskService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class TaskCLI {
      static void main(String[] args) {
@@ -76,7 +77,7 @@ class TaskCLI {
                     }
                 }
                 case "list" -> {
-                    ArrayList<Task> taskShow;
+                    List<Task> taskShow;
                     if (args.length == 2) {
                         try {
                             firstTextField = args[1];
