@@ -2,9 +2,10 @@ package repository;
 
 import model.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskRepository {
-    public void save(List<Task> tasks);
-    public List<Task> load();
+    void save(List<Task> tasks);
+    ArrayList<Task> load();
 }
