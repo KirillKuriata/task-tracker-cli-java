@@ -2,7 +2,6 @@ import model.Status;
 import model.Task;
 import service.TaskService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 class TaskCLI {
